@@ -1,46 +1,48 @@
 import React, { useRef, useEffect, useState } from 'react'
-import OpeningScene from '../OpeningScene/OpeningScene'
+import OpeningSceneLeft from '../OpeningSceneLeft/OpeningSceneLeft'
+import OpeningSceneRight from '../OpeningSceneRight/OpeningSceneRight'
 
-const GameLayout: React.FC = () => {
+interface OpeningSceneProps {
+    onChoice: () => void
+}
+const OpeningScene: React.FC<OpeningSceneProps> = ({ onChoice }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const [textOutput, setTextOutput] = useState<string>(
-        'Welcome to The Pixelated Forest.\nThis is a text-based puzzle game.\nYou will have to use your imagination to win the game.\n\nDo you want to play a new game?'
+        'You magically appear in a dark forest.\n' +
+            'The smell of fresh grass and the sounds of the forest creatures soothes you.\n' +
+            "You hear a whisper 'Welcome to The Pixelated Forest'.\n" +
+            'It sends chills down your spine.\n' +
+            "You look around. You're at a crossroad."
     )
     const [inputValue, setInputValue] = useState<string>('')
-    const [currentScene, setCurrentScene] = useState<string>('start')
+    const [currentScene, setCurrentScene] = useState<string>('openingScene')
 
     //Paths
     const images = {
-        start: process.env.PUBLIC_URL + '/img/start.webp',
+        openingSceneLeft: process.env.PUBLIC_URL + '/img/openingSceneLeft.webp',
+        openingSceneRight:
+            process.env.PUBLIC_URL + '/img/openingSceneRight.webp',
+        openingSceneMiddle:
+            process.env.PUBLIC_URL + '/img/openingSceneMiddle.webp',
         openingScene: process.env.PUBLIC_URL + '/img/openingScene.webp'
     }
 
-    const [imageSrc, setImageSrc] = useState<string>(images.start)
+    const [imageSrc, setImageSrc] = useState<string>(images.openingScene)
 
-    const acceptedWords = [
-        'yes',
-        'y',
-        'ye',
-        'yez',
-        'yess',
-        'yass',
-        'yuss',
-        'yuzz',
-        'ok',
-        'oki',
-        'okay',
-        'okay!',
-        'okej',
-        'k',
-        'aye',
-        'yes!',
-        'ya',
-        'japp',
-        'jep',
-        'hell yeah',
-        'yeah',
-        'sure',
-        'fine'
+    const choiceGoLeft = ['left', 'go left', 'walk left', 'run left']
+    const choiceGoRight = ['right', 'go right', 'walk right', 'run right']
+    const choiceGoMiddle = [
+        'middle',
+        'go middle',
+        'walk middle',
+        'forward',
+        'go forward',
+        'walk forward',
+        'north',
+        'go north',
+        'walk north',
+        'go straight',
+        'straight'
     ]
 
     useEffect(() => {
@@ -64,8 +66,12 @@ const GameLayout: React.FC = () => {
         if (event.key === 'Enter') {
             const userResponse = inputValue.toLowerCase()
 
-            if (acceptedWords.includes(userResponse)) {
-                setCurrentScene('openingScene')
+            if (choiceGoLeft.includes(userResponse)) {
+                setCurrentScene('openingSceneLeft')
+            } else if (choiceGoRight.includes(userResponse)) {
+                setCurrentScene('openingSceneRight')
+            } else if (choiceGoMiddle.includes(userResponse)) {
+                setTextOutput('go middle')
             } else {
                 setTextOutput((prev) => prev + '\n> ' + userResponse)
             }
@@ -74,8 +80,18 @@ const GameLayout: React.FC = () => {
         }
     }
 
-    if (currentScene === 'openingScene') {
-        return <OpeningScene onChoice={() => setCurrentScene('nextScene')} />
+    if (currentScene === 'openingSceneLeft') {
+        return (
+            <OpeningSceneLeft
+                onChoice={() => setCurrentScene('nextSceneLeft')}
+            />
+        )
+    } else if (currentScene === 'openingSceneRight') {
+        return (
+            <OpeningSceneRight
+                onChoice={() => setCurrentScene('nextSceneRight')}
+            />
+        )
     }
 
     return (
@@ -165,4 +181,4 @@ const GameLayout: React.FC = () => {
     )
 }
 
-export default GameLayout
+export default OpeningScene

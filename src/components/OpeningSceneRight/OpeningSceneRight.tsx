@@ -1,21 +1,29 @@
 import React, { useRef, useEffect, useState } from 'react'
 import OpeningScene from '../OpeningScene/OpeningScene'
 
-const GameLayout: React.FC = () => {
+interface OpeningSceneRightProps {
+    onChoice: () => void
+}
+const OpeningSceneRight: React.FC<OpeningSceneRightProps> = ({ onChoice }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const [textOutput, setTextOutput] = useState<string>(
-        'Welcome to The Pixelated Forest.\nThis is a text-based puzzle game.\nYou will have to use your imagination to win the game.\n\nDo you want to play a new game?'
+        "You walked right and went deeper into the forest.\nAs you walk you hear sounds from the trees you don't recognize.\nYou notice a significantly larger tree the shining.\nYou close your eyes for a second and as you open your eyes a tree nymph appears in front of you.\nThe creature looks shy."
     )
     const [inputValue, setInputValue] = useState<string>('')
-    const [currentScene, setCurrentScene] = useState<string>('start')
+    const [currentScene, setCurrentScene] =
+        useState<string>('openingSceneRight')
 
     //Paths
     const images = {
-        start: process.env.PUBLIC_URL + '/img/start.webp',
+        openingSceneLeft: process.env.PUBLIC_URL + '/img/openingSceneLeft.webp',
+        openingSceneRight:
+            process.env.PUBLIC_URL + '/img/openingSceneRight.webp',
+        openingSceneMiddle:
+            process.env.PUBLIC_URL + '/img/openingSceneMiddle.webp',
         openingScene: process.env.PUBLIC_URL + '/img/openingScene.webp'
     }
 
-    const [imageSrc, setImageSrc] = useState<string>(images.start)
+    const [imageSrc, setImageSrc] = useState<string>(images.openingSceneRight)
 
     const acceptedWords = [
         'yes',
@@ -72,10 +80,6 @@ const GameLayout: React.FC = () => {
 
             setInputValue('')
         }
-    }
-
-    if (currentScene === 'openingScene') {
-        return <OpeningScene onChoice={() => setCurrentScene('nextScene')} />
     }
 
     return (
@@ -165,4 +169,4 @@ const GameLayout: React.FC = () => {
     )
 }
 
-export default GameLayout
+export default OpeningSceneRight

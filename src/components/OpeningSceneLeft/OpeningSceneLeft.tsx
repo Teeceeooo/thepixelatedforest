@@ -1,21 +1,28 @@
 import React, { useRef, useEffect, useState } from 'react'
 import OpeningScene from '../OpeningScene/OpeningScene'
 
-const GameLayout: React.FC = () => {
+interface OpeningSceneLeftProps {
+    onChoice: () => void
+}
+const OpeningSceneLeft: React.FC<OpeningSceneLeftProps> = ({ onChoice }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const [textOutput, setTextOutput] = useState<string>(
-        'Welcome to The Pixelated Forest.\nThis is a text-based puzzle game.\nYou will have to use your imagination to win the game.\n\nDo you want to play a new game?'
+        'You walked left and went deeper into the forest.\nYou arrive at a clearing. There are traces of blood on the ground.\nYou hear a swift noise coming from the trees around you.\nAn enchanted arrow shoots through the mists and hits you.\n\nYou bleed to death.\n\nDo you want to play a new game?'
     )
     const [inputValue, setInputValue] = useState<string>('')
-    const [currentScene, setCurrentScene] = useState<string>('start')
+    const [currentScene, setCurrentScene] = useState<string>('openingSceneLeft')
 
     //Paths
     const images = {
-        start: process.env.PUBLIC_URL + '/img/start.webp',
+        openingSceneLeft: process.env.PUBLIC_URL + '/img/openingSceneLeft.webp',
+        openingSceneRight:
+            process.env.PUBLIC_URL + '/img/openingSceneRight.webp',
+        openingSceneMiddle:
+            process.env.PUBLIC_URL + '/img/openingSceneMiddle.webp',
         openingScene: process.env.PUBLIC_URL + '/img/openingScene.webp'
     }
 
-    const [imageSrc, setImageSrc] = useState<string>(images.start)
+    const [imageSrc, setImageSrc] = useState<string>(images.openingSceneLeft)
 
     const acceptedWords = [
         'yes',
@@ -165,4 +172,4 @@ const GameLayout: React.FC = () => {
     )
 }
 
-export default GameLayout
+export default OpeningSceneLeft
