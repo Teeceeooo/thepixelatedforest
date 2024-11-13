@@ -12,7 +12,8 @@ const OpeningScene: React.FC<OpeningSceneProps> = ({ onChoice }) => {
             'The smell of fresh grass and the sounds of the forest creatures soothes you.\n' +
             "You hear a whisper 'Welcome to The Pixelated Forest'.\n" +
             'It sends chills down your spine.\n' +
-            "You look around. You're at a crossroad."
+            "You look around. You're at a crossroad.\n\n" +
+            'What do you do? Go left or Go right'
     )
     const [inputValue, setInputValue] = useState<string>('')
     const [currentScene, setCurrentScene] = useState<string>('openingScene')
@@ -71,7 +72,7 @@ const OpeningScene: React.FC<OpeningSceneProps> = ({ onChoice }) => {
             } else if (choiceGoRight.includes(userResponse)) {
                 setCurrentScene('openingSceneRight')
             } else if (choiceGoMiddle.includes(userResponse)) {
-                setTextOutput('go middle')
+                setTextOutput('Real game begins... To be continued.')
             } else {
                 setTextOutput((prev) => prev + '\n> ' + userResponse)
             }

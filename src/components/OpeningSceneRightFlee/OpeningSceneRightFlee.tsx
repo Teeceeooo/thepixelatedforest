@@ -1,44 +1,57 @@
 import React, { useRef, useEffect, useState } from 'react'
 import OpeningScene from '../OpeningScene/OpeningScene'
-import OpeningSceneRightFlee from '../OpeningSceneRightFlee/OpeningSceneRightFlee'
-import OpeningSceneRightStay from '../OpeningSceneRightStay/OpeningSceneRightStay'
 
-interface OpeningSceneRightProps {
+interface OpeningSceneRightFleeProps {
     onChoice: () => void
 }
-const OpeningSceneRight: React.FC<OpeningSceneRightProps> = ({ onChoice }) => {
+const OpeningSceneRightFlee: React.FC<OpeningSceneRightFleeProps> = ({
+    onChoice
+}) => {
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const [textOutput, setTextOutput] = useState<string>(
-        "You walked right and went deeper into the forest.\nAs you walk you hear sounds from the trees you don't recognize.\nYou notice a significantly larger tree in the shining.\nYou close your eyes for a second and as you open your eyes a tree nymph appears in front of you.\nThe creature looks shy.\n\nWhat do you do? Flee or Stay?"
+        'You run away at high speed.\nYou become disoriented.\nThe winds sing their song.\nYou faint.\n\nDo you want to play a new game?'
     )
     const [inputValue, setInputValue] = useState<string>('')
-    const [currentScene, setCurrentScene] =
-        useState<string>('openingSceneRight')
+    const [currentScene, setCurrentScene] = useState<string>(
+        'openingSceneRightFlee'
+    )
+
+    const acceptedWords = [
+        'yes',
+        'y',
+        'ye',
+        'yez',
+        'yess',
+        'yass',
+        'yuss',
+        'yuzz',
+        'ok',
+        'oki',
+        'okay',
+        'okay!',
+        'okej',
+        'k',
+        'aye',
+        'yes!',
+        'ya',
+        'japp',
+        'jep',
+        'hell yeah',
+        'yeah',
+        'sure',
+        'fine'
+    ]
 
     //Paths
     const images = {
-        openingSceneLeft: process.env.PUBLIC_URL + '/img/openingSceneLeft.webp',
-        openingSceneRight:
-            process.env.PUBLIC_URL + '/img/openingSceneRight.webp',
-        openingSceneMiddle:
-            process.env.PUBLIC_URL + '/img/openingSceneMiddle.webp',
+        openingSceneRightFlee:
+            process.env.PUBLIC_URL + '/img/openingSceneRightFlee.webp',
         openingScene: process.env.PUBLIC_URL + '/img/openingScene.webp'
     }
 
-    const [imageSrc, setImageSrc] = useState<string>(images.openingSceneRight)
-
-    const choice2_1 = [
-        'flee',
-        'run',
-        'walk',
-        'walk away',
-        'get the fuck outta here',
-        'back',
-        'south',
-        'go back',
-        'walk back'
-    ]
-    const choice2_2 = ['stay', 'nothing', 'wait']
+    const [imageSrc, setImageSrc] = useState<string>(
+        images.openingSceneRightFlee
+    )
 
     useEffect(() => {
         const canvas = canvasRef.current
@@ -61,10 +74,8 @@ const OpeningSceneRight: React.FC<OpeningSceneRightProps> = ({ onChoice }) => {
         if (event.key === 'Enter') {
             const userResponse = inputValue.toLowerCase()
 
-            if (choice2_1.includes(userResponse)) {
-                setCurrentScene('openingSceneRightFlee')
-            } else if (choice2_2.includes(userResponse)) {
-                setCurrentScene('openingSceneRightStay')
+            if (acceptedWords.includes(userResponse)) {
+                setCurrentScene('openingScene')
             } else {
                 setTextOutput((prev) => prev + '\n> ' + userResponse)
             }
@@ -73,18 +84,8 @@ const OpeningSceneRight: React.FC<OpeningSceneRightProps> = ({ onChoice }) => {
         }
     }
 
-    if (currentScene === 'openingSceneRightFlee') {
-        return (
-            <OpeningSceneRightFlee
-                onChoice={() => setCurrentScene('nextScene')}
-            />
-        )
-    } else if (currentScene === 'openingSceneRightStay') {
-        return (
-            <OpeningSceneRightStay
-                onChoice={() => setCurrentScene('nextScene')}
-            />
-        )
+    if (currentScene === 'openingScene') {
+        return <OpeningScene onChoice={() => setCurrentScene('nextScene')} />
     }
 
     return (
@@ -174,4 +175,4 @@ const OpeningSceneRight: React.FC<OpeningSceneRightProps> = ({ onChoice }) => {
     )
 }
 
-export default OpeningSceneRight
+export default OpeningSceneRightFlee

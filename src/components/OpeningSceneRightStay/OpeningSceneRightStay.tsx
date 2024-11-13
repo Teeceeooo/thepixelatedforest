@@ -1,44 +1,52 @@
 import React, { useRef, useEffect, useState } from 'react'
 import OpeningScene from '../OpeningScene/OpeningScene'
 import OpeningSceneRightFlee from '../OpeningSceneRightFlee/OpeningSceneRightFlee'
-import OpeningSceneRightStay from '../OpeningSceneRightStay/OpeningSceneRightStay'
+import OpeningSceneNymphAttack from '../OpeningSceneNymphAttack/OpeningSceneNymphAttack'
+import OpeningSceneNymphStay from '../OpeningSceneNymphStay/OpeningSceneNymphStay'
 
-interface OpeningSceneRightProps {
+interface OpeningSceneRightStayProps {
     onChoice: () => void
 }
-const OpeningSceneRight: React.FC<OpeningSceneRightProps> = ({ onChoice }) => {
+const OpeningSceneRightStay: React.FC<OpeningSceneRightStayProps> = ({
+    onChoice
+}) => {
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const [textOutput, setTextOutput] = useState<string>(
-        "You walked right and went deeper into the forest.\nAs you walk you hear sounds from the trees you don't recognize.\nYou notice a significantly larger tree in the shining.\nYou close your eyes for a second and as you open your eyes a tree nymph appears in front of you.\nThe creature looks shy.\n\nWhat do you do? Flee or Stay?"
+        'You stay and look at the tree nymph.\nIt looks at you with curiosity.\nThe skin of the tree nymph is olive-green.\nYou see a glimmer of magic in the eyes.\nYou notice a bow and arrows in between you and the tree nymph.\nYou pick it up.\n\nWhat do you do? Flee, Nothing or Fight?'
     )
     const [inputValue, setInputValue] = useState<string>('')
-    const [currentScene, setCurrentScene] =
-        useState<string>('openingSceneRight')
+    const [currentScene, setCurrentScene] = useState<string>(
+        'openingSceneRightStay'
+    )
 
-    //Paths
-    const images = {
-        openingSceneLeft: process.env.PUBLIC_URL + '/img/openingSceneLeft.webp',
-        openingSceneRight:
-            process.env.PUBLIC_URL + '/img/openingSceneRight.webp',
-        openingSceneMiddle:
-            process.env.PUBLIC_URL + '/img/openingSceneMiddle.webp',
-        openingScene: process.env.PUBLIC_URL + '/img/openingScene.webp'
-    }
-
-    const [imageSrc, setImageSrc] = useState<string>(images.openingSceneRight)
-
-    const choice2_1 = [
+    const choice3_1 = [
         'flee',
         'run',
         'walk',
         'walk away',
-        'get the fuck outta here',
-        'back',
-        'south',
-        'go back',
-        'walk back'
+        'get the fuck outta here'
     ]
-    const choice2_2 = ['stay', 'nothing', 'wait']
+    const choice3_2 = ['stay', 'nothing', 'wait']
+    const choice3_3 = [
+        'fight',
+        'kill',
+        'combat',
+        'brawl',
+        'box',
+        'confront',
+        'wrestle'
+    ]
+
+    //Paths
+    const images = {
+        openingSceneRightStay:
+            process.env.PUBLIC_URL + '/img/openingSceneRightStay.webp',
+        openingScene: process.env.PUBLIC_URL + '/img/openingScene.webp'
+    }
+
+    const [imageSrc, setImageSrc] = useState<string>(
+        images.openingSceneRightStay
+    )
 
     useEffect(() => {
         const canvas = canvasRef.current
@@ -60,15 +68,15 @@ const OpeningSceneRight: React.FC<OpeningSceneRightProps> = ({ onChoice }) => {
     const handleUserInput = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
             const userResponse = inputValue.toLowerCase()
-
-            if (choice2_1.includes(userResponse)) {
+            if (choice3_1.includes(userResponse)) {
                 setCurrentScene('openingSceneRightFlee')
-            } else if (choice2_2.includes(userResponse)) {
-                setCurrentScene('openingSceneRightStay')
+            } else if (choice3_2.includes(userResponse)) {
+                setCurrentScene('openingSceneNymphStay')
+            } else if (choice3_3.includes(userResponse)) {
+                setCurrentScene('openingSceneNymphAttack')
             } else {
                 setTextOutput((prev) => prev + '\n> ' + userResponse)
             }
-
             setInputValue('')
         }
     }
@@ -79,9 +87,15 @@ const OpeningSceneRight: React.FC<OpeningSceneRightProps> = ({ onChoice }) => {
                 onChoice={() => setCurrentScene('nextScene')}
             />
         )
-    } else if (currentScene === 'openingSceneRightStay') {
+    } else if (currentScene === 'openingSceneNymphStay') {
         return (
-            <OpeningSceneRightStay
+            <OpeningSceneNymphStay
+                onChoice={() => setCurrentScene('nextScene')}
+            />
+        )
+    } else if (currentScene === 'openingSceneNymphAttack') {
+        return (
+            <OpeningSceneNymphAttack
                 onChoice={() => setCurrentScene('nextScene')}
             />
         )
@@ -174,4 +188,4 @@ const OpeningSceneRight: React.FC<OpeningSceneRightProps> = ({ onChoice }) => {
     )
 }
 
-export default OpeningSceneRight
+export default OpeningSceneRightStay
